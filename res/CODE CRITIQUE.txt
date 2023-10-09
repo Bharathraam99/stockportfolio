@@ -1,0 +1,88 @@
+CODE CRITIQUE
+By - Sideeshwaran Lakkapuram Balasubramani, Bharath Raam Vaduvoor Srinivasan
+
+Code Providers: Nikhil Satish Kulkarni, Atharva Abhijit Kulkarni
+
+
+Design Critique :
+
+1.  The design of the code follows MVC (Model View Architecture) and is well modularized. All the features have their 
+separate functions and classes with their intended functionalities. 
+
+2.  All the classes and the implementations for features have their own interfaces. With this the implementations of 
+all the features are well abstracted from the controller.
+
+3.  The code uses the method of interface segregation to extend the features of a new iteration of an application from 
+an older iteration of that application.
+
+4.  The graphical user interface uses command callbacks directory to add features to the view. This abstracts the low 
+level events of an 5. action and keyboard from the controller.
+
+5.  The given code could have used the Builder design pattern to build objects of various classes in the model, 
+particularly for classes like “StockFlexibleImpl” which has constructors with many input parameters. This could provide 
+better control over the construction of objects of these classes.
+
+6.  The code contains too much logic implemented in the controller class. This exposes the implementation to the user 
+and makes the controller tightly coupled with the model.
+
+
+Implementation Critique :
+
+1.  The selling of a stock feature was not implemented properly. Right now it is implemented in such a way that in a 
+portfolio, if 50 stocks of aapl are bought on day 1 and 50 stocks of aapl are are bought on day 2 and if we try to 
+sell 75 stocks of aapl on day 3 after day 1 and 2, it throws an error saying "insufficient number of number of stocks" 
+despite having 100 stocks of aapl on that date. But we are able to sell 50 and 25 stocks of apple as two separate selling 
+operations on the same day. 
+
+2.  When an amount is invested in a portfolio, the total amount invested is directly multiplied with the percentage input 
+value given to the company instead of the fractional value of that percentage. This leads to incorrect quantities of stock 
+bought when an amount is invested into a portfolio.
+
+3.  When stocks are bought in a portfolio using the Dollar Cost Averaging Strategy, the value of the portfolio does not 
+correlate with the amount invested using the strategy which was needed to correctly implement the rebalancing feature of a portfolio.
+
+4.  The commission fee for a stock bought by investing an amount into a portfolio is always a the value of 1.0.
+
+5.  Proper prompts are not given to the user after a functionality is implemented successfully.
+
+Documentation Critique :
+
+1.  The JAVA docs in the code are comprehensive and well explain the functionality of a given feature.
+2.  The README.txt file gives an appropriate overview of all  the features of the applications.
+3.  The DESIGN-README.txt does not contain any concrete information about the design changes made in the code between two
+ different iterations of the application.
+4.  The SETUP-README.txt is well written and contains detailed instructions on how to run the Jar file given in the res 
+folder, the dependencies it needs to run properly and the assumptions needed to run the code properly.
+
+Design / Code Strengths:
+
+1.  The design of the code follows SOLID principles and it is easily open to extension. The code is well divided into 
+functions and each function has one purpose to tend to making the design cohesive.
+2.  The low level events in the view are abstracted from the controller.
+
+Design / Code Limitations:
+
+1.  The design does not contain any builder classes to construct objects in the model. Having these classes would give a 
+better control over the construction process.
+
+2.  The code had certain limitations (bugs) in the implementation of a few features that was necessary to ensure a right
+implementation of the rebalancing feature. They are :
+
+    1.  The selling of stocks was implemented in such a way that the deletion of stocks cannot be done from two different
+        bought stock sets. For example if a portfolio contains two sets of appl stocks containing 50 stocks in each. The 
+        user wont be able to sell two 75 stocks of aapl though there are 100 of them. The user will be able to sell only
+        50 stocks in one go. - The rebalancing feature needed this limitation fixed to sell a huge number of stocks that
+        is an aggregate of a more than one stock sets bought. The provider was contacted to fix this limitation but they
+        replied that the code is designed in such a way that this limitation cannot be fixed.
+
+    2.  The the percentages of each stock in an investment was directly multiplied with the total amount in an investment 
+        instead of the fractional value of each percentage of a stock. This limitation was had to be fixed to query the right
+        value of the portfolio while rebalancing. This limitation was notified to the provider and was fixed.
+
+    3.  The commission fee of a strategy invested in a portfolio was always 1.0 without any regards to its input. The limitation
+        had to be fixed to query the cost basis of a portfolio while rebalancing. This limitation was notified to the provider 
+        and was fixed.
+
+    4.  The remove duplicates functionality had a few limitations where a few redundant companies in the portfolio where not
+        removed. This had to be fixed to query the list of companies in a portfolio while rebalancing to get updated weights.
+        This limitation was notified to the provider and was fixed.
